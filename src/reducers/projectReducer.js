@@ -4,6 +4,8 @@ export default function projectReducer(state = {}, action) {
             return Object.assign({projectItems: action.projectItems});
         case 'PROJECT_LOADING':
             return {status: action.status};
+            case 'ERROR_FETCH_PROJECT':
+            return {error: action.error};
         default:
             return state;
     }

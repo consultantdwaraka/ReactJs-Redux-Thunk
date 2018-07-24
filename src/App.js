@@ -7,7 +7,7 @@ import './App.css';
 class App extends Component {
   render() {
     return (
-      <div className="container">
+      <div className="container" style={{width:'50%'}}>
         <Header></Header>
         <Main></Main>
       </div>

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
-import ProjectManagement from './project-management';
+import ProjectManagement from './project/project-management';
 import TaskManagement from './task-management';
-import UserManagement from './user-management';
+import UserManagement from './user/user-management';
 import ViewTask from './view-task';
 
 const Main = () => <div className="container">
@@ -12,6 +12,7 @@ const Main = () => <div className="container">
                             <li className="nav-item"> <a className="nav-link" href="/user"> Add User </a></li>
                             <li className="nav-item"> <a className="nav-link" href="/viewTask"> View Task </a></li>
                         </ul> 
+                        <div style={{padding:'30px'}}></div>
                         <Switch>
                             <Route path="/project" component={ProjectManagement} />
                             <Route path="/task" component={TaskManagement} />

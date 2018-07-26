@@ -1,37 +1,42 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Field, reduxForm } from 'redux-form';
+
+import { addUserAction } from '../../actions/userActions';
 
 class AddUser extends Component {
 
-    constructor(props){
+    constructor(props) {
         super(props);
     }
 
     render() {
+        const { handleSubmit } = this.props;
         return (
-            <form>
-                <div class="form-group row">
-                    <label for="firstName" className="col-2" >First Name: </label>
+            <form autocomplete="off" onSubmit={handleSubmit}> 
+                <div className="form-group row">
+                    <label htmlFor="firstName" className="col-2" >First Name: </label>
                     <div className="col-10">
-                        <input type="text" className="form-control" id="firstName"/>
+                        <Field type="text" className="form-control" component="input" name="firstName" id="firstName" />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="lastName" className="col-2" >Last Name: </label>
+                <div className="form-group row">
+                    <label htmlFor="lastName" className="col-2" >Last Name: </label>
                     <div className="col-10">
-                        <input type="text" className="form-control" id="lastName"/>
+                        <Field type="text" className="form-control" component="input" name="lastName" id="lastName" />
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label for="employeeID" className="col-2" >Employee ID: </label>
+                <div className="form-group row">
+                    <label htmlFor="employeeId" className="col-2 no-wrap" >Employee ID: </label>
                     <div className="col-10">
-                        <input type="text" className="form-control" id="employeeId"/>
+                        <Field type="text" className="form-control" component="input" name="employeeId" id="employeeId" />
                     </div>
                 </div>
-                <div class="form-group row">
+                <div className="form-group row">
                     <div className="col-8">
                     </div>
-                    <div className="col-1">
-                        <button type="button" className="btn btn-secondary"> Add</button>
+                    <div className="col-2">
+                        <button type="submit" className="btn btn-secondary"> Add</button>
                     </div>
                     <div className="col-2">
                         <button type="button" className="btn btn-secondary"> Reset</button>
@@ -41,4 +46,21 @@ class AddUser extends Component {
         );
     }
 }
-export default AddUser;
+
+const mapStateToProps = (state) => {
+    return {
+        initialValues: state.userReducer.userFormData,
+        enableReinitialize: true
+    }
+
+}
+const mapDispatcherToProps = (dispatch) => {
+    return {
+        addUser: (firstName, lastName, employeeId) => dispatch(addUserAction(firstName, lastName, employeeId))
+    }
+
+}
+AddUser = reduxForm({
+    form: 'addUserForm'
+})(AddUser);
+export default connect(mapStateToProps, mapDispatcherToProps)(AddUser);

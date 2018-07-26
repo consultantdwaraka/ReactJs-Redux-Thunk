@@ -25,12 +25,12 @@ class ProjectManagement extends Component {
 }
 const mapStateToProps = (state) => {
     return {
-        status:state.projectReducer.status,
+        status: state.projectReducer.status,
         projectItems: state.projectReducer.projectItems,
         error: state.projectReducer.error
     }
 }
-const mapDispachToProps = (dispatch) => {
+const mapDispachToProps = (dispatch) => { 
     return {
         fetchProjects: (url) => dispatch(fetchProjects(url))
     }

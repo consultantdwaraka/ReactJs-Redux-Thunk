@@ -10,23 +10,23 @@ class ListUsers extends Component {
                     <div className="col-12" style={{borderBottomStyle:'dotted'}}>
                         <div className="row">
                             <div className="col-8">
-                                {this.props.userDetails.firstName}
+                                {`First Name: ${this.props.userDetails.firstName}`}
                             </div>
                             <div className="col-4">
-                                <button type="button" className="btn btn-secondary">Edit</button>
+                                <button type="button" className="btn btn-secondary" onClick={()=>this.props.onEdit(this.props.userDetails)}>Edit</button>
                             </div>
                         </div>
                         <div className="row" style={{paddingTop:'5px'}}>
                             <div className="col-8">
-                                {this.props.userDetails.lastName}
+                                {`Last Name: ${this.props.userDetails.lastName}`}
                             </div>
                             <div className="col-4">
-                                <button type="button" className="btn btn-secondary">Delete</button>
+                                <button type="button" className="btn btn-secondary" onClick={()=> this.props.onDelete(this.props.userDetails.id)}>Delete</button>
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-8">
-                                {this.props.userDetails.employeeId}
+                                {`Employee Id: ${this.props.userDetails.employeeId}`}
                             </div>
                             <div className="col-4">
                                 

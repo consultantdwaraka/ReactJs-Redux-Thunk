@@ -11,6 +11,7 @@ class UserManagement extends Component {
     }
 
     handleSubmit = usetDetails => {
+        console.log(usetDetails);
         this.props.addUser(usetDetails);
     }
 
@@ -25,7 +26,7 @@ class UserManagement extends Component {
     return (<div className="container">
                 <AddUser onSubmit = {this.handleSubmit}></AddUser>
                 
-                <div className="container" style={{borderTopStyle:'solid', borderTopColor:'#030350'}}>
+                <div className="container" style={{borderTopStyle:'solid', borderTopColor:'#030350'}}></div> 
                 <div className="row" style={{borderBottomStyle:'dotted', padding:'15px'}}>
                         <div className="col-4">
                             <input type="text" className="form-control" placeholder="Search"/>
@@ -44,7 +45,7 @@ class UserManagement extends Component {
                         </div>
                 </div>
                     { this.props.userItems.map(userDetails => <ListUsers userDetails = {userDetails} onEdit={this.editUser} onDelete={this.deleteUser}> </ListUsers>) }
-                </div> 
+                
             </div>);
         
     }

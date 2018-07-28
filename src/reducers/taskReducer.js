@@ -1,9 +1,9 @@
-export default function projectReducer(state = {}, action) {
+export default function taskReducer(state = {}, action) {
     switch(action.type) {
-        case 'FETCH_PROJECT':
-            return Object.assign({}, state, {projectItems: action.projectItems});
-        case 'PROJECT_LOADING':
-            return {status: action.status};
+        case 'ADD_TASK':
+            return Object.assign({}, state, {taskItems: action.taskItems});
+        case 'LOAD_TASK':
+        return Object.assign({}, state, {taskItems: action.taskItems});
         case 'ERROR_FETCH_PROJECT':
             return {error: action.error};
         case 'CLEAR_PROJECT_FORM':

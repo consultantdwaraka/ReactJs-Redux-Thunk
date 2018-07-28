@@ -1,26 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchProjects, projectLoading} from '../../actions/projectActions';
+import {fetchProjects, projectLoading, addProjectAction} from '../../actions/projectActions';
+import ListProject from './listProject';
+import AddProject from './addProject';
 
 class ProjectManagement extends Component {
     constructor(props) {
         super(props);
     }
     componentDidMount() {
-        this.props.fetchProjects('https://5b5561f3503d9200146886fb.mockapi.io/test/tests');
+        this.props.fetchProjects();
+    }
+    handleSubmit = (projectItem)=> {
+        this.props.addProject(projectItem);
     }
     render() {
-        if(this.props.status) {
-            return (<div> Loading.......</div>);
-        } else if(this.props.projectItems){
-            return (<div>
-                          {this.props.projectItems.map(data => <div> {data.id} </div>)} 
-                    </div>);
-        } else if(this.props.error){
-            return (<div> Couldn't fetch data! </div>);
-        } else {
-            return (<div> Please wait!!</div>);
-        }
+        return (<div className="container">
+            <AddProject onSubmit={this.handleSubmit}> </AddProject>
+            <div className="container" style={{ borderTopStyle: 'solid', borderTopColor: '#030350' }}></div>
+            {this.props.projectItems && this.props.projectItems.map(projectItem => <ListProject key={projectItem.id} projectItem={projectItem}> </ListProject>)}
+        </div>);
+
     }
 }
 const mapStateToProps = (state) => {
@@ -32,7 +32,8 @@ const mapStateToProps = (state) => {
 }
 const mapDispachToProps = (dispatch) => { 
     return {
-        fetchProjects: (url) => dispatch(fetchProjects(url))
+        addProject: (projectItem) => dispatch(addProjectAction(projectItem)),
+        fetchProjects: (url) => dispatch(fetchProjects())
     }
 }
 export default connect(mapStateToProps, mapDispachToProps) (ProjectManagement);

@@ -13,7 +13,7 @@ class AddUser extends Component {
     render() {
         const { handleSubmit } = this.props;
         return (
-            <form autocomplete="off" onSubmit={handleSubmit}> 
+            <form autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="firstName" className="col-2" >First Name: </label>
                     <div className="col-10">
@@ -54,13 +54,8 @@ const mapStateToProps = (state) => {
     }
 
 }
-const mapDispatcherToProps = (dispatch) => {
-    return {
-        addUser: (firstName, lastName, employeeId) => dispatch(addUserAction(firstName, lastName, employeeId))
-    }
 
-}
 AddUser = reduxForm({
     form: 'addUserForm'
 })(AddUser);
-export default connect(mapStateToProps, mapDispatcherToProps)(AddUser);
+export default connect(mapStateToProps, null)(AddUser);

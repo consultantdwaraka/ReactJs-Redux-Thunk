@@ -1,9 +1,9 @@
 import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import ProjectManagement from './project/project-management';
-import TaskManagement from './task-management';
+import TaskManagement from './task/task-management';
 import UserManagement from './user/user-management';
-import ViewTask from './view-task';
+import ViewTask from './task/view-task';
 
 const Main = () => <div className="container">
                         <ul className="nav">

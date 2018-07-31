@@ -1,14 +1,34 @@
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
+import  {Modal, Button} from 'react-bootstrap'
 class AddProject extends Component  {
-    constructor(props) {
+    constructor(props){
         super(props)
+        this.state = {show:false};
+        this.handleShow = this.handleShow.bind(this);
+    this.handleClose = this.handleClose.bind(this);
     }
+    validate = values => {
+        const errors = {};
+        if(!values.projectName) {
+            errors.projectName = 'Required';
+        }
+        return errors;
+    }
+
+    handleClose = () => {
+        this.setState({show:false})
+    }
+
+    handleShow = () => {
+        this.setState({show:true})
+    }
+
     render() {
         const { handleSubmit } = this.props;
         return (
-            <form autoComplete="off" onSubmit={handleSubmit}> 
+            <div> <form autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="projectName" className="col-2" >Project: </label>
                     <div className="col-10">
@@ -29,7 +49,7 @@ class AddProject extends Component  {
                 </div>
                 <div className="form-group row">
                     <label htmlFor="priority" className="col-2" >Priority: </label>
-                    <Field type="range" className="form-control col-10" component="input" name="priority" id="priority" min="0" max="30" step="1" data-show-value="true"/>
+                    <Field type="range" className="form-control col-10" component="input" name="priority" id="priority" min="0" max="30" step="1" />
                 </div>
                 <div className="form-group row">
                     <label htmlFor="employeeId" className="col-2 no-wrap" >Manager: </label>
@@ -37,7 +57,7 @@ class AddProject extends Component  {
                         <Field type="text" className="form-control" component="input" name="managerId" id="managerId" />
                     </div>
                     <div className="col-2">
-                    <button type="button" className="btn btn-default"> Search </button>
+                        <button type="button" className="btn btn-default" onClick={this.handleShow}> Search </button>
                     </div>
                 </div>
                 <div className="form-group row">
@@ -50,13 +70,17 @@ class AddProject extends Component  {
                         <button type="button" className="btn btn-secondary"> Reset</button>
                     </div>
                 </div>
-        </form>
+                </form>
+                <div>
+                </div>
+        </div>
         );
     }
 }
 
 AddProject = reduxForm({
-    form: 'addProjectForm'
+    form: 'addProjectForm',
+    validate:this.validate
 })(AddProject);
 
 const mapStateToProps = (state) => {

@@ -8,14 +8,11 @@ class ViewTask extends Component {
         this.state = {searchFilter:''};
     }
 
-
     componentDidMount() {
         this.props.fetchTasks();
     }
     filterTasks = (e) => {
-        console.log(`Data to be fetched: ${e.target.value}`);
         this.setState({searchFilter:e.target.value});
-        console.log(`Data to be fetched 1111: ${this.state.searchFilter}`);
     }
 
     render() {

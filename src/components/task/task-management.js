@@ -18,7 +18,6 @@ class TaskManagement extends Component {
     }
 }
 
-
 const mapDispachToProps = (dispatch) => { 
     return {
         addTask: (taskFormData) => dispatch(addTaskAction(taskFormData))

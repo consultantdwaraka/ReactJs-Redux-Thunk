@@ -1,12 +1,14 @@
 
 import request from 'superagent';
 
-const ADD_PROJECTS_URL = 'http://5b5561f3503d9200146886fb.mockapi.io/test/projects';
+const FETCH_TASK_API = 'http://localhost:8080/services/v1/getProjects';
+const PUT_TASK_API = 'http://localhost:8080/services/v1/addProject';
+const DEL_TASK_API = 'http://localhost:8080/services/v1/deleteTask';
 
 export function fetchProjects() {
     console.log(`Action:`);
     return (dispatch)=> {
-        request.get(ADD_PROJECTS_URL)
+        request.get(FETCH_TASK_API)
                .then(res => res.body)
                .then(data => {dispatch({type:'FETCH_PROJECT', projectItems:data})})
                .catch(error => dispatch({type:'ERROR_FETCH_PROJECT', error}));
@@ -16,7 +18,7 @@ export function fetchProjects() {
 
 export function addProjectAction(projectItems) {
     return (dispatch)=> {
-        request.post(ADD_PROJECTS_URL).send(projectItems).then(res => res.body).then(data => {dispatch(clearProjectForm()); dispatch(fetchProjects())})
+        request.put(PUT_TASK_API).send(projectItems).then(res => res.body).then(data => {dispatch(clearProjectForm()); dispatch(fetchProjects())})
        
     }
 }

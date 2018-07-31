@@ -6,12 +6,16 @@ import AddUser from './addUser';
 
 class UserManagement extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {filterBy:''};
+    }
+
     componentDidMount() {
         this.props.fetchUsers();
     }
 
     handleSubmit = usetDetails => {
-        console.log(usetDetails);
         this.props.addUser(usetDetails);
     }
 
@@ -22,6 +26,10 @@ class UserManagement extends Component {
         this.props.deleteUser(id);
     }
 
+    filterUser = (e) => {
+        this.setState({filterBy:e.target.value});
+    }
+
     render() {  
     return (<div className="container">
                 <AddUser onSubmit = {this.handleSubmit}></AddUser>
@@ -29,7 +37,7 @@ class UserManagement extends Component {
                 <div className="container" style={{borderTopStyle:'solid', borderTopColor:'#030350'}}></div> 
                 <div className="row" style={{borderBottomStyle:'dotted', padding:'15px'}}>
                         <div className="col-4">
-                            <input type="text" className="form-control" placeholder="Search"/>
+                            <input type="text" className="form-control" placeholder="Search" onChange= {(e) => this.filterUser(e)}/>
                         </div>
 
                             <label className="col-2"> Sort:</label>
@@ -44,7 +52,11 @@ class UserManagement extends Component {
                             <button type="button" className="btn btn-secondary"> Id</button>
                         </div>
                 </div>
-                    { this.props.userItems.map(userDetails => <ListUsers userDetails = {userDetails} onEdit={this.editUser} onDelete={this.deleteUser}> </ListUsers>) }
+                    { this.props.userItems && this.props.userItems.filter(user => user.lastName.includes(this.state.filterBy) 
+                                                                                || user.firstName.includes(this.state.filterBy) 
+                                                                                || user.employeeId.includes(this.state.filterBy) 
+                                                                                || this.state.filterBy === '')
+                                                                  .map(userDetails => <ListUsers userDetails = {userDetails} onEdit={this.editUser} onDelete={this.deleteUser}> </ListUsers>) }
                 
             </div>);
         

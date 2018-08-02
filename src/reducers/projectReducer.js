@@ -7,7 +7,7 @@ export default function projectReducer(state = {}, action) {
         case 'ERROR_FETCH_PROJECT':
             return {error: action.error};
         case 'CLEAR_PROJECT_FORM':
-            return Object.assign({}, {projectFormData: action.projectFormData});
+            return Object.assign({}, state, {projectFormData: action.projectFormData});
         default:
             return state;
     }

@@ -1,4 +1,6 @@
 import request from 'superagent';
+import {reset} from 'redux-form';
+
 const FETCH_USER_API = 'http://localhost:8080/services/v1/getUsers';
 const PUT_USER_API = 'http://localhost:8080/services/v1/addUser';
 const DEL_USER_API = 'http://localhost:8080/services/v1/deleteUser';
@@ -6,7 +8,7 @@ const DEL_USER_API = 'http://localhost:8080/services/v1/deleteUser';
 export function addUserAction(userDetails) {
     return (dispatch) => {
         const {id} = userDetails;
-            request.put(PUT_USER_API).send(userDetails).then(data => {dispatch(clearUserForm());dispatch(fetchUsers())});
+            request.put(PUT_USER_API).send(userDetails).then(data => {dispatch(reset('addUserForm'));dispatch(fetchUsers())});
     };
 }
 

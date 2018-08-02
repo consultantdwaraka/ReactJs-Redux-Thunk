@@ -1,12 +1,12 @@
 
 import request from 'superagent';
+import {reset} from 'redux-form';
 
 const FETCH_TASK_API = 'http://localhost:8080/services/v1/getProjects';
 const PUT_TASK_API = 'http://localhost:8080/services/v1/addProject';
 const DEL_TASK_API = 'http://localhost:8080/services/v1/deleteTask';
 
 export function fetchProjects() {
-    console.log(`Action:`);
     return (dispatch)=> {
         request.get(FETCH_TASK_API)
                .then(res => res.body)
@@ -18,15 +18,15 @@ export function fetchProjects() {
 
 export function addProjectAction(projectItems) {
     return (dispatch)=> {
-        request.put(PUT_TASK_API).send(projectItems).then(res => res.body).then(data => {dispatch(clearProjectForm()); dispatch(fetchProjects())})
+        request.put(PUT_TASK_API).send(projectItems).then(res => res.body).then(data => {dispatch(reset('addProjectForm')); dispatch(fetchProjects())})
        
     }
 }
 
 export function clearProjectForm() {
     return (dispatch) => {
-        let emptyProjectForm = {projectName:''};
-        dispatch({type:'CLEAR_PROJECT_FORM', projectFromData: emptyProjectForm});
+        let emptyProjectForm = {projectName:'', startDate:'', endDate:'',priority:'', managerId:''};
+        dispatch({type:'CLEAR_PROJECT_FORM', projectFormData: emptyProjectForm});
     }
 }
 

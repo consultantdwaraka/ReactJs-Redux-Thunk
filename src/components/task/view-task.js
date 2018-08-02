@@ -41,7 +41,7 @@ class ViewTask extends Component {
                         <button type="button" className="btn btn-secondary"> Completed </button>
                     </div>
              </div>
-            {taskItems && taskItems.filter( taskItem => (taskItem.projectName.includes(this.state.searchFilter) || this.state.searchFilter === '')).map(taskItem =>
+            {taskItems && taskItems.filter( taskItem => (taskItem.projectName && taskItem.projectName.includes(this.state.searchFilter) || this.state.searchFilter === '')).map(taskItem =>
                 <div className="row" style={{borderBottom:'dotted', padding:'10px'}} key={taskItem.id}>
                     <div className="col-2">
                         <b> Task </b>

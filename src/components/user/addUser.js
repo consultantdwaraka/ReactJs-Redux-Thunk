@@ -11,25 +11,25 @@ class AddUser extends Component {
     }
 
     render() {
-        const { handleSubmit } = this.props;
+        const { handleSubmit, reset } = this.props;
         return (
             <form autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="firstName" className="col-2" >First Name: </label>
                     <div className="col-10">
-                        <Field type="text" className="form-control" component="input" name="firstName" id="firstName" />
+                        <Field type="text" className="form-control" component={renderField} name="firstName" id="firstName" />
                     </div>
                 </div>
                 <div className="form-group row">
                     <label htmlFor="lastName" className="col-2" >Last Name: </label>
                     <div className="col-10">
-                        <Field type="text" className="form-control" component="input" name="lastName" id="lastName" />
+                        <Field type="text" className="form-control" component={renderField} name="lastName" id="lastName" />
                     </div>
                 </div>
                 <div className="form-group row">
                     <label htmlFor="employeeId" className="col-2 no-wrap" >Employee ID: </label>
                     <div className="col-10">
-                        <Field type="text" className="form-control" component="input" name="employeeId" id="employeeId" />
+                        <Field type="text" className="form-control" component={renderField} name="employeeId" id="employeeId" />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -39,7 +39,7 @@ class AddUser extends Component {
                         <button type="submit" className="btn btn-secondary"> Add</button>
                     </div>
                     <div className="col-2">
-                        <button type="button" className="btn btn-secondary"> Reset</button>
+                        <button type="button" className="btn btn-secondary" onClick={reset}> Reset</button>
                     </div>
                 </div>
             </form>
@@ -55,7 +55,38 @@ const mapStateToProps = (state) => {
 
 }
 
+const validate = values => {
+    const errors = {};
+    if(!values.firstName) {
+        errors.firstName = 'Required';
+    }
+  
+    if(!values.lastName) {
+        errors.lastName = 'Required';
+    }
+    if(!values.employeeId) {
+        errors.employeeId = 'Required';
+    }
+    return errors;
+}
+
 AddUser = reduxForm({
-    form: 'addUserForm'
+    form: 'addUserForm',
+    validate
 })(AddUser);
 export default connect(mapStateToProps, null)(AddUser);
+
+const renderField = ({
+    input,
+    label,
+    type,
+    meta: { touched, error, warning }
+  }) => (
+    <div>
+        <input className="form-control" {...input} type={type} />
+        {touched &&
+          (error && <div class="alert alert-danger">
+          {error}
+        </div>)}
+    </div>
+    )

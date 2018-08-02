@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import {Field, reduxForm} from 'redux-form';
 import {connect} from 'react-redux';
-import  {Modal, Button} from 'react-bootstrap'
+import  {Modal, Button} from 'react-bootstrap';
+import moment from 'moment';
 class AddProject extends Component  {
     constructor(props){
         super(props)
@@ -9,13 +10,7 @@ class AddProject extends Component  {
         this.handleShow = this.handleShow.bind(this);
     this.handleClose = this.handleClose.bind(this);
     }
-    validate = values => {
-        const errors = {};
-        if(!values.projectName) {
-            errors.projectName = 'Required';
-        }
-        return errors;
-    }
+    
 
     handleClose = () => {
         this.setState({show:false})
@@ -26,35 +21,38 @@ class AddProject extends Component  {
     }
 
     render() {
-        const { handleSubmit } = this.props;
+        const { handleSubmit, resetProject, reset } = this.props;
         return (
             <div> <form autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="projectName" className="col-2" >Project: </label>
                     <div className="col-10">
-                        <Field type="text" className="form-control" component="input" name="projectName" id="projectName" />
+                        <Field type="text" className="form-control" component={renderField} name="projectName" id="projectName"/>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label htmlFor="datecheck" className="col-2" ></label>
-                    <label className="col-4">
-                        <Field type="checkbox" component="input" name="datecheck" id="datecheck" /> {' '} Set Start and End Date
+                    <label className="col-1">
+                        <Field type="checkbox" component="input" name="datecheck" id="datecheck" />
+                    </label>
+                    <label className="col-2" style={{whiteSpace:'noWrap', textAlign:'left'}}>
+                        Set Start and End Date
                     </label>
                     <div className='col-3'>
-                        <Field type="date" className="form-control" component="input" name="startDate" id="startDate" placeholder="Start Date"/>
+                        <Field type="date" className="form-control" component={renderField} name="startDate" id="startDate" placeholder="Start Date"/>
                     </div>
                     <div className='col-3'>
-                        <Field type="date" className="form-control" component="input" name="endDate" id="endDate" placeholder="End Date"/>
+                        <Field type="date" className="form-control" component={renderField} name="endDate" id="endDate" placeholder="End Date"/>
                     </div>
                 </div>
                 <div className="form-group row">
                     <label htmlFor="priority" className="col-2" >Priority: </label>
-                    <Field type="range" className="form-control col-10" component="input" name="priority" id="priority" min="0" max="30" step="1" />
+                    <Field type="range" className="form-control col-10" component={renderField} name="priority" id="priority" min="1" max="30" step="1" value='0' />
                 </div>
                 <div className="form-group row">
                     <label htmlFor="employeeId" className="col-2 no-wrap" >Manager: </label>
                     <div className="col-8">
-                        <Field type="text" className="form-control" component="input" name="managerId" id="managerId" />
+                        <Field type="text" className="form-control" component={renderField} name="managerId" id="managerId" />
                     </div>
                     <div className="col-2">
                         <button type="button" className="btn btn-default" onClick={this.handleShow}> Search </button>
@@ -67,7 +65,7 @@ class AddProject extends Component  {
                         <button type="submit" className="btn btn-secondary"> Add</button>
                     </div>
                     <div className="col-2">
-                        <button type="button" className="btn btn-secondary"> Reset</button>
+                        <button type="button" className="btn btn-secondary" onClick={reset}> Reset</button>
                     </div>
                 </div>
                 </form>
@@ -78,9 +76,35 @@ class AddProject extends Component  {
     }
 }
 
+const validate = values => {
+    const errors = {};
+    if(!values.projectName) {
+        errors.projectName = 'Required';
+    }
+  
+    if(!values.managerId) {
+        errors.managerId = 'Required';
+    }
+    if(!values.startDate) {
+        errors.startDate = 'Required';
+    }
+    if(!values.priority) {
+        errors.priority = 'Required';
+    }
+    if(!values.endDate) {
+        errors.endDate = 'Required';
+    }
+    if(values.startDate && values.endDate) {
+       if(moment(values.startDate).isAfter(values.endDate)) {
+        errors.startDate = 'Start Date should be before the End Date';
+       }
+    }
+    return errors;
+}
+
 AddProject = reduxForm({
     form: 'addProjectForm',
-    validate:this.validate
+    validate
 })(AddProject);
 
 const mapStateToProps = (state) => {
@@ -90,3 +114,19 @@ const mapStateToProps = (state) => {
     }
 }
 export default connect(mapStateToProps, null)(AddProject);
+
+
+const renderField = ({
+    input,
+    label,
+    type,
+    meta: { touched, error, warning }
+  }) => (
+    <div>
+        <input className="form-control" {...input} type={type} />
+        {touched &&
+          (error && <div class="alert alert-danger">
+          {error}
+        </div>)}
+    </div>
+    )

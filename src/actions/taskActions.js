@@ -1,4 +1,5 @@
 import request from 'superagent';
+import {reset} from 'redux-form';
 
 const FETCH_TASK_API = 'http://localhost:8080/services/v1/getTasks';
 const PUT_TASK_API = 'http://localhost:8080/services/v1/addTask';
@@ -7,7 +8,7 @@ const DEL_TASK_API = 'http://localhost:8080/services/v1/deleteTask';
 export function addTaskAction(taskDetails) {
     return (dispatch) => {
         const {id} = taskDetails;
-        request.put(PUT_TASK_API).send(taskDetails).then(data => console.log(`Updated task details!`));
+        request.put(PUT_TASK_API).send(taskDetails).then(data => dispatch(reset('addTaskForm')));
         
     };
 }
@@ -19,3 +20,10 @@ export function fetchTasks() {
                 .catch(error => console.log(`Error while fetching the user details, ${error}`));
      };
  }
+
+ export function clearTaskForm() {
+    return (dispatch) => {
+        let emptyTaskForm = {};
+        dispatch({type:'CLEAR_TASK_FORM', taskFormData: emptyTaskForm});
+    }
+}

@@ -11,8 +11,12 @@ class AddTask extends Component {
     }
 
     render() {
-        const { handleSubmit, reset } = this.props;
+        const { handleSubmit, reset, taskId } = this.props;
         return (
+            <div>
+                 <h1> {taskId?'Edit Task':'Add Task'} </h1>
+                    <br/>
+                    <br/>
             <form name="taskForm" autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="projectName" className="col-2" >Project Name: </label>
@@ -29,7 +33,9 @@ class AddTask extends Component {
 
                 <div className="form-group row">
                     <label htmlFor="priority" className="col-2" >Priority: </label>
-                    <Field type="range" className="form-control col-10" component={renderField} name="priority" id="priority" min="0" max="30" step="1" />
+                    <div className="col-10">
+                        <Field type="range" className="form-control" component={renderField} name="priority" id="priority" min="0" max="30" step="1" />
+                    </div>
                 </div>
 
                 <div className="form-group row">
@@ -59,13 +65,13 @@ class AddTask extends Component {
                     <div className="col-8">
                     </div>
                     <div className="col-2">
-                        <button type="submit" className="btn btn-secondary"> Add</button>
+                        <button type="submit" className="btn btn-secondary"> {taskId?'Edit Task':'Add Task'}</button>
                     </div>
                     <div className="col-2">
                         <button type="button" className="btn btn-secondary" onClick={reset}> Reset</button>
                     </div>
                 </div>
-            </form>
+            </form> </div>
         );
     }
 }
@@ -73,7 +79,8 @@ class AddTask extends Component {
 const mapStateToProps = (state) => {
     return {
         initialValues: state.taskReducer.taskFormData,
-        enableReinitialize: true
+        enableReinitialize: true,
+        taskId: state.taskReducer.taskFormData && state.taskReducer.taskFormData.id
     }
 
 }

@@ -6,6 +6,9 @@ export default function projectReducer(state = {}, action) {
             return {status: action.status};
         case 'ERROR_FETCH_PROJECT':
             return {error: action.error};
+        case 'EDIT_PROJECT_FORM':
+            console.log(`${JSON.stringify(action.projectFormData)}`);
+            return Object.assign({}, state, {projectFormData: action.projectFormData});
         case 'CLEAR_PROJECT_FORM':
             return Object.assign({}, state, {projectFormData: action.projectFormData});
         default:

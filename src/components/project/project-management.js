@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchProjects, projectLoading, addProjectAction, clearProjectForm} from '../../actions/projectActions';
+import {fetchProjects, projectLoading, addProjectAction, clearProjectForm, editProjectAction} from '../../actions/projectActions';
 import ListProject from './listProject';
 import AddProject from './addProject';
 
@@ -13,6 +13,7 @@ class ProjectManagement extends Component {
         this.props.fetchProjects();
     }
     handleSubmit = (projectItem)=> {
+        
         this.props.addProject(projectItem);
     }
 
@@ -23,6 +24,10 @@ class ProjectManagement extends Component {
         this.setState({filterBy: e.target.value});
     }
 
+    editProject = (projectItem) => {
+        this.props.editProject(projectItem);
+    }
+
     sortRecords = (e) => {
         let projects = this.props.projectItems.sort((prev, current) => prev.priority.localeCompare(current.priority) );
     }
@@ -30,6 +35,7 @@ class ProjectManagement extends Component {
     render() {
         const {projectItems} = this.props;
         return (<div className="container">
+            
             <AddProject onSubmit={this.handleSubmit} resetProject={this.resetForm}> </AddProject>
             <div className="row" style={{ borderTopStyle: 'solid', borderTopColor: '#030350' }}></div>
                 <div className="row" style={{padding:'10px', borderBottom: 'dotted'}}>
@@ -53,7 +59,7 @@ class ProjectManagement extends Component {
                     </div>
                 
             </div>
-            {projectItems && projectItems.filter(projectItem => projectItem.projectName && projectItem.projectName.includes(this.state.filterBy) || this.state.filterBy ==='' ).map(projectItem => <ListProject key={projectItem.id} projectItem={projectItem}> </ListProject>)}
+            {projectItems && projectItems.filter(projectItem => projectItem.projectName && projectItem.projectName.includes(this.state.filterBy) || this.state.filterBy ==='' ).map(projectItem => <ListProject key={projectItem.id} projectItem={projectItem} editProject={this.editProject}> </ListProject>)}
         </div>);
 
     }
@@ -69,7 +75,8 @@ const mapDispachToProps = (dispatch) => {
     return {
         addProject: (projectItem) => dispatch(addProjectAction(projectItem)),
         fetchProjects: (url) => dispatch(fetchProjects()),
-        resetProject: () => dispatch(clearProjectForm())
+        resetProject: () => dispatch(clearProjectForm()),
+        editProject: (projectItem) => dispatch(editProjectAction(projectItem)) 
     }
 }
 export default connect(mapStateToProps, mapDispachToProps) (ProjectManagement);

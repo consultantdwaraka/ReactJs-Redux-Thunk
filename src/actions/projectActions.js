@@ -17,10 +17,16 @@ export function fetchProjects() {
 }
 
 export function addProjectAction(projectItems) {
+    console.log(`${JSON.stringify(projectItems)}`)
     return (dispatch)=> {
         request.put(PUT_TASK_API).send(projectItems).then(res => res.body).then(data => {dispatch(reset('addProjectForm')); dispatch(fetchProjects())})
-       
-    }
+       }
+}
+
+export function editProjectAction(projectItem) {
+    return (dispatch) => {
+        dispatch({type:'EDIT_PROJECT_FORM', projectFormData: projectItem});
+    };
 }
 
 export function clearProjectForm() {

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Field, reduxForm} from 'redux-form';
+import {Field, reduxForm, formValueSelector} from 'redux-form';
 import {connect} from 'react-redux';
 import  {Modal, Button} from 'react-bootstrap';
 import moment from 'moment';
@@ -8,7 +8,7 @@ class AddProject extends Component  {
         super(props)
         this.state = {show:false};
         this.handleShow = this.handleShow.bind(this);
-    this.handleClose = this.handleClose.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
     
 
@@ -21,13 +21,17 @@ class AddProject extends Component  {
     }
 
     render() {
-        const { handleSubmit, resetProject, reset } = this.props;
+        const { handleSubmit, resetProject, reset, isDateCheckSelected, projectName, projectId } = this.props;
         return (
-            <div> <form autoComplete="off" onSubmit={handleSubmit}> 
+            <div> 
+                <h1> {projectId?'Edit Project':'Add Project'} </h1>
+                <br/>
+                <br/>
+                <form autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="projectName" className="col-2" >Project: </label>
                     <div className="col-10">
-                        <Field type="text" className="form-control" component={renderField} name="projectName" id="projectName"/>
+                        <Field type="text" className="form-control" component={renderField} value={projectName} name="projectName" id="projectName"/>
                     </div>
                 </div>
                 <div className="form-group row">
@@ -39,15 +43,17 @@ class AddProject extends Component  {
                         Set Start and End Date
                     </label>
                     <div className='col-3'>
-                        <Field type="date" className="form-control" component={renderField} name="startDate" id="startDate" placeholder="Start Date"/>
+                        <Field type="date" className="form-control" component={renderField} name="startDate" id="startDate" />
                     </div>
                     <div className='col-3'>
-                        <Field type="date" className="form-control" component={renderField} name="endDate" id="endDate" placeholder="End Date"/>
+                        <Field type="date" className="form-control" component={renderField} name="endDate" id="endDate" />
                     </div>
                 </div>
                 <div className="form-group row">
                     <label htmlFor="priority" className="col-2" >Priority: </label>
-                    <Field type="range" className="form-control col-10" component={renderField} name="priority" id="priority" min="1" max="30" step="1" value='0' />
+                    
+                        <Field type="range" className="form-control col-10" component="input" name="priority" id="priority" min="1" max="30" step="1" value='0' />
+
                 </div>
                 <div className="form-group row">
                     <label htmlFor="employeeId" className="col-2 no-wrap" >Manager: </label>
@@ -107,12 +113,22 @@ AddProject = reduxForm({
     validate
 })(AddProject);
 
+const formSelector = formValueSelector('addProjectForm');
+
 const mapStateToProps = (state) => {
+    const isDateCheckSelected = formSelector(state, 'datecheck');
+    let startDate = moment();
+    let endDate = moment();
+
     return {
         initialValues:  state.projectReducer.projectFormData,
-        enableReinitialize: true
+        enableReinitialize: true,
+        projectId: state.projectReducer.projectFormData && state.projectReducer.projectFormData.id
     }
 }
+
+
+
 export default connect(mapStateToProps, null)(AddProject);
 
 

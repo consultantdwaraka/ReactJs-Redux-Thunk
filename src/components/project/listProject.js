@@ -7,7 +7,7 @@ class ListProject extends Component {
     }
 
     render() {
-        const projectItem = this.props.projectItem;
+        const {projectItem, editProject} = this.props;
         const {id, projectName, tasks, startDate, endDate, completedTasks, priority} = projectItem;
 
         return (<div className="row" style={{padding:'5px', borderBottom:'dotted'}}>
@@ -15,24 +15,24 @@ class ListProject extends Component {
                     <div className="col-8">
                         <div className="row">
                             <div className="col-12">
-                            {`Project: ${projectName}`}
+                            {`Project: ${projectName ? projectName:''}`}
                             </div>
                         </div>
                         <div className="row">
                             <div className="col-6">
-                                {`No Of Tasks: ${tasks}`}
+                                {`No Of Tasks: ${tasks? tasks:''}`}
                             </div>
                             <div className="col-6">
-                                {`Completed: ${completedTasks}`}
+                                {`Completed: ${completedTasks?completedTasks:''}`}
                             </div>
 
                         </div>
                         <div className="row">
                             <div className="col-6">
-                                {`Start Date: ${startDate}`}
+                                {`Start Date: ${startDate ? startDate:'' }`}
                             </div>
                             <div className="col-6">
-                                {`End Date: ${endDate}`}
+                                {`End Date: ${endDate ? endDate: ''}`}
                             </div>
                         </div>
                         
@@ -43,14 +43,14 @@ class ListProject extends Component {
                             priority
                         </div>
                         <div className="row">
-                            ${priority}
+                            ${priority?priority:0}
                         </div>
                                 
                     </div>
 
                     <div className="col-2">
                         <div className="row" style={{padding:'10px'}}>
-                           <button type="button" className="btn btn-secondary"> Update </button>
+                           <button type="button" className="btn btn-secondary" onClick={() => editProject(projectItem)}> Update </button>
                         </div>
                         <div className="row">
                             <button type="button" className="btn btn-secondary"> Suspend </button>

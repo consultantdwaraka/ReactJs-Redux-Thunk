@@ -32,6 +32,7 @@ class UserManagement extends Component {
 
     render() {  
     return (<div className="container">
+                
                 <AddUser onSubmit = {this.handleSubmit}></AddUser>
                 
                 <div className="container" style={{borderTopStyle:'solid', borderTopColor:'#030350'}}></div> 

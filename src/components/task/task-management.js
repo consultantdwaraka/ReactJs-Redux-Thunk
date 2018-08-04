@@ -9,10 +9,12 @@ class TaskManagement extends Component {
     }
     handleSubmit = taskFormData => {
         this.props.addTask(taskFormData);
+        this.props.history.push('/viewTask');
     }
 
     render() {
         return (<div>
+                   
                     <AddTask onSubmit={this.handleSubmit}> </AddTask>
                 </div>);
     }

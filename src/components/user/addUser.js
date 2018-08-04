@@ -11,8 +11,11 @@ class AddUser extends Component {
     }
 
     render() {
-        const { handleSubmit, reset } = this.props;
-        return (
+        const { handleSubmit, reset, id } = this.props;
+        return ( <div>
+            <h1> {id? 'Edit User':'Add User'} </h1>
+                    <br/>
+                    <br/>
             <form autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="firstName" className="col-2" >First Name: </label>
@@ -36,13 +39,13 @@ class AddUser extends Component {
                     <div className="col-8">
                     </div>
                     <div className="col-2">
-                        <button type="submit" className="btn btn-secondary"> Add</button>
+                        <button type="submit" className="btn btn-secondary"> {id? 'Edit':'Add'}</button>
                     </div>
                     <div className="col-2">
                         <button type="button" className="btn btn-secondary" onClick={reset}> Reset</button>
                     </div>
                 </div>
-            </form>
+            </form> </div>
         );
     }
 }
@@ -50,7 +53,8 @@ class AddUser extends Component {
 const mapStateToProps = (state) => {
     return {
         initialValues: state.userReducer.userFormData,
-        enableReinitialize: true
+        enableReinitialize: true,
+        id: state.userReducer.userFormData && state.userReducer.userFormData.id
     }
 
 }

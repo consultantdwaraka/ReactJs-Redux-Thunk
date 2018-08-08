@@ -33,7 +33,7 @@ class AddTask extends Component {
                 <div className="form-group row">
                     <label className="col-2"> </label>
                     <label className="col-1">
-                        <Field type="checkbox" component="input" name="parentTask" id="parentTask" />
+                        <Field type="checkbox" component={renderField} name="parentTask" id="parentTask" />
                     </label>
                     <label className="col-8" style={{whiteSpace:'noWrap', textAlign:'left'}}>
                         Parent task
@@ -108,9 +108,7 @@ const validate = values => {
     if(!values.taskName) {
         errors.taskName = 'Required';
     }
-    
-
-
+  
     if(!values.startDate) {
         errors.startDate = 'Required';
     }
@@ -139,7 +137,8 @@ const validate = values => {
 }
 
 AddTask = reduxForm({
-    form: 'addTaskForm'
+    form: 'addTaskForm',
+    validate
 })(AddTask);
 
 const renderField = ({

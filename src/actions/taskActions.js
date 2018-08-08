@@ -9,8 +9,7 @@ const END_TASK_API = 'http://localhost:8080/services/v1/endTask';
 export function addTaskAction(taskDetails) {
     console.log(JSON.stringify(taskDetails));
     return (dispatch) => {
-        const {id} = taskDetails;
-        request.put(PUT_TASK_API).send(taskDetails).then(data => {dispatch(reset('addTaskForm')); dispatch(clearTaskForm());});
+        request.put(PUT_TASK_API).send(taskDetails).then(data => {dispatch(reset('addTaskForm')); dispatch(clearTaskForm()); dispatch(fetchTasks())});
         
     };
 }

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchTasks, editTaskAction, endTaskAction } from '../../actions/taskActions';
+import { fetchTasks, editTaskAction, endTaskAction, sortTasks } from '../../actions/taskActions';
 
 class ViewTask extends Component {
 
@@ -25,6 +25,10 @@ class ViewTask extends Component {
         this.props.endTask(taskItem);
     }
 
+    sortRecords = (e) => {
+        this.props.sortTasks(e.target.name);
+    }
+
     render() {
         const { taskItems } = this.props;
         return (<div className="container">
@@ -42,39 +46,39 @@ class ViewTask extends Component {
                         <button type="button" className="btn btn-gray"> Search </button>
                     </div>
                     <div className="col-2">
-                        <button type="button" className="btn btn-secondary"> Start Date </button>
+                        <button type="button"  name="startDate" className="btn btn-secondary" onClick={(e)=> this.sortRecords(e)}> Start Date </button>
                     </div>
                     <div className="col-2">
-                        <button type="button" className="btn btn-secondary"> End Date </button>
+                        <button type="button" name="endDate" className="btn btn-secondary" onClick={(e)=> this.sortRecords(e)}> End Date </button>
                     </div>
                     <div className="col-1" style= {{paddingRight:'2px'}}>
-                         <button type="button" className="btn btn-secondary"> Priority </button>
+                         <button type="button" name="priority" className="btn btn-secondary" onClick={(e)=> this.sortRecords(e)}> Priority </button>
                     </div>
                     <div className="col-1">
-                        <button type="button" className="btn btn-secondary"> Completed </button>
+                        <button type="button" name="completed" className="btn btn-secondary" onClick={(e)=> this.sortRecords(e)}> Completed </button>
                     </div>
              </div>
             {taskItems && taskItems.filter( taskItem => (taskItem.projectName && taskItem.projectName.includes(this.state.searchFilter) || this.state.searchFilter === '')).map(taskItem =>
                 <div className="row" style={{borderBottom:'dotted', padding:'10px'}} key={taskItem.id}>
                     <div className="col-2">
                         <b> Task </b>
-                        <div> {`${taskItem.taskName}`} </div>
+                        <div> {`${taskItem.taskName?taskItem.taskName:''}`} </div>
                     </div>
                     <div className="col-2">
                         <b> Parent </b>
-                        <div> {`${taskItem.taskName}`} </div>
+                        <div> {`${taskItem.parentTaskDesc? taskItem.parentTaskDesc:''}`} </div>
                     </div>
                     <div className="col-2">
                         <b> Priority </b>
-                        <div> {`${taskItem.priority}`} </div>
+                        <div> {`${taskItem.priority?taskItem.priority:''}`} </div>
                     </div>
                     <div className="col-2">
                         <b> Start </b>
-                        <div> {`${taskItem.startDate}`} </div>
+                        <div> {`${taskItem.startDate?taskItem.startDate:''}`} </div>
                     </div>
                     <div className="col-2">
                         <b> End </b>
-                        <div> {`${taskItem.endDate}`} </div>
+                        <div> {`${taskItem.endDate?taskItem.endDate:''}`} </div>
                     </div>
                     <div className="col-1">
                          <button type="button" className="btn btn-secondary" disabled={taskItem.status === 'Completed'} onClick= {() => this.editTask(taskItem)}> Edit </button>
@@ -90,6 +94,7 @@ class ViewTask extends Component {
 
 
 const mapStateToProps = (state) => {
+    console.log(`Task items: ${JSON.stringify(state.taskReducer.taskItems)}`);
     return {
         taskItems: state.taskReducer.taskItems || []
     };
@@ -98,7 +103,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         fetchTasks: () => dispatch(fetchTasks()),
         editTask: (taskItem) => dispatch(editTaskAction(taskItem)),
-        endTask: (taskItem) => dispatch(endTaskAction(taskItem))
+        endTask: (taskItem) => dispatch(endTaskAction(taskItem)),
+        sortTasks: (sortByColumn) => dispatch(sortTasks(sortByColumn)) 
     }
 }
 

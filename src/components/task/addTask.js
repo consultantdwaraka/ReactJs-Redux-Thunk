@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Field, reduxForm } from 'redux-form';
+import { Field, reduxForm, formValueSelector } from 'redux-form';
 import moment from 'moment';
 
 
@@ -11,17 +11,17 @@ class AddTask extends Component {
     }
 
     render() {
-        const { handleSubmit, reset, taskId } = this.props;
+        const { handleSubmit, reset, taskId, isParentTask } = this.props;
         return (
             <div>
                  <h1> {taskId?'Edit Task':'Add Task'} </h1>
                     <br/>
                     <br/>
-            <form name="taskForm" autoComplete="off" onSubmit={handleSubmit}> 
+            <form  autoComplete="off" onSubmit={handleSubmit}> 
                 <div className="form-group row">
                     <label htmlFor="projectName" className="col-2" >Project Name: </label>
                     <div className="col-10">
-                        <Field type="text" className="form-control" component={renderField} name="projectName" id="projectName" />
+                        <Field type="text" className="form-control"   component={renderField} name="projectName" id="projectName" />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -30,29 +30,38 @@ class AddTask extends Component {
                         <Field type="text" className="form-control" component={renderField} name="taskName" id="taskName" />
                     </div>
                 </div>
+                <div className="form-group row">
+                    <label className="col-2"> </label>
+                    <label className="col-1">
+                        <Field type="checkbox" component="input" name="parentTask" id="parentTask" />
+                    </label>
+                    <label className="col-8" style={{whiteSpace:'noWrap', textAlign:'left'}}>
+                        Parent task
+                    </label>
+                </div>
 
                 <div className="form-group row">
                     <label htmlFor="priority" className="col-2" >Priority: </label>
                     <div className="col-10">
-                        <Field type="range" className="form-control" component={renderField} name="priority" id="priority" min="0" max="30" step="1" />
+                        <Field type="range" className="form-control"  component={renderField} name="priority" id="priority" min="0" max="30" step="1" />
                     </div>
                 </div>
 
                 <div className="form-group row">
                     <label htmlFor="projectName" className="col-2" >Parent Task: </label>
                     <div className="col-10">
-                        <Field type="text" className="form-control" component={renderField} name="parentTask" id="parentTask" />
+                        <Field type="text" className="form-control" component={renderField} name="parentTaskDesc" id="parentTaskDesc" />
                     </div>
                 </div>
 
                 <div className="form-group row">
                     <label htmlFor="startDate" className="col-2 no-wrap" >Start Date: </label>
                     <div className="col-4">
-                        <Field type="date" className="form-control" component={renderField} name="startDate" id="startDate" />
+                        <Field type="date" className="form-control"  component={renderField} name="startDate" id="startDate" />
                     </div>
                     <label htmlFor="endDate" className="col-2 no-wrap" >End Date: </label>
                     <div className="col-4">
-                        <Field type="date" className="form-control" component={renderField} name="endDate" id="endDate" />
+                        <Field type="date" className="form-control"  component={renderField} name="endDate" id="endDate" />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -76,11 +85,16 @@ class AddTask extends Component {
     }
 }
 
+const formSelector = formValueSelector('addTaskForm');
+
+
 const mapStateToProps = (state) => {
+    const isParentTask = formSelector(state, 'parentTask');
     return {
         initialValues: state.taskReducer.taskFormData,
         enableReinitialize: true,
-        taskId: state.taskReducer.taskFormData && state.taskReducer.taskFormData.id
+        taskId: state.taskReducer.taskFormData && state.taskReducer.taskFormData.id,
+        isParentTask: isParentTask
     }
 
 }
@@ -94,12 +108,9 @@ const validate = values => {
     if(!values.taskName) {
         errors.taskName = 'Required';
     }
-    if(!values.priority) {
-        errors.priority = 'Required';
-    }
-    if(!values.parentTask) {
-        errors.parentTask = 'Required';
-    }
+    
+
+
     if(!values.startDate) {
         errors.startDate = 'Required';
     }
@@ -110,18 +121,25 @@ const validate = values => {
         errors.userName = 'Required';
     }
 
+    if(!values.priority) {
+        errors.priority = 'Required';
+    }
+    if(!values.parentTask) {
+        errors.parentTask = 'Required';
+    }
+
     if(values.startDate && values.endDate) {
         if(moment(values.startDate).isAfter(values.endDate)) {
          errors.startDate = 'Start Date should be before the End Date';
         }
      }
+    
 
     return errors;
 }
 
 AddTask = reduxForm({
-    form: 'addTaskForm',
-    validate
+    form: 'addTaskForm'
 })(AddTask);
 
 const renderField = ({

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Switch, Route} from 'react-router-dom';
+import {Switch, Route, Redirect} from 'react-router-dom';
 import ProjectManagement from './project/project-management';
 import TaskManagement from './task/task-management';
 import UserManagement from './user/user-management';
@@ -14,6 +14,7 @@ const Main = () => <div className="container">
                         </ul> 
                         <div style={{padding:'30px'}}></div>
                         <Switch>
+                            <Redirect exact from="/" to="project" />
                             <Route path="/project" component={ProjectManagement} />
                             <Route path="/task" component={TaskManagement} />
                             <Route path="/user" component={UserManagement} />

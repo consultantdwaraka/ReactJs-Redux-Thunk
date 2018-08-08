@@ -40,3 +40,11 @@ export function deleteUserAction(id) {
                 .catch(error => console.log(`Error while deleting the user details, ${error}`));
      };
  }
+
+export function sortUsers(sortByColumn) {
+    return (dispatch) => {
+        dispatch({
+            type:'SORT_USERS', columnName: sortByColumn
+        });
+    }
+}

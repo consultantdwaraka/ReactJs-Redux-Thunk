@@ -7,9 +7,10 @@ const DEL_TASK_API = 'http://localhost:8080/services/v1/deleteTask';
 const END_TASK_API = 'http://localhost:8080/services/v1/endTask';
 
 export function addTaskAction(taskDetails) {
+    console.log(JSON.stringify(taskDetails));
     return (dispatch) => {
         const {id} = taskDetails;
-        request.put(PUT_TASK_API).send(taskDetails).then(data => dispatch(reset('addTaskForm')));
+        request.put(PUT_TASK_API).send(taskDetails).then(data => {dispatch(reset('addTaskForm')); dispatch(clearTaskForm());});
         
     };
 }
@@ -38,7 +39,15 @@ export function fetchTasks() {
 
  export function clearTaskForm() {
     return (dispatch) => {
-        let emptyTaskForm = {};
+        let emptyTaskForm = {projectName:'', taskName:'',priority:'', parentTask:'', startDate:'', endDate:''};
         dispatch({type:'CLEAR_TASK_FORM', taskFormData: emptyTaskForm});
+    }
+}
+
+export function sortTasks(sortByColumn) {
+    return (dispatch) => {
+        dispatch({
+            type:'SORT_TASKS', columnName: sortByColumn
+        });
     }
 }

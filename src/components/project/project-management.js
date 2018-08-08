@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {fetchProjects, projectLoading, addProjectAction, clearProjectForm, editProjectAction} from '../../actions/projectActions';
+import {fetchProjects, projectLoading, addProjectAction, clearProjectForm, editProjectAction, sortProjects} from '../../actions/projectActions';
 import ListProject from './listProject';
 import AddProject from './addProject';
 
@@ -29,7 +29,7 @@ class ProjectManagement extends Component {
     }
 
     sortRecords = (e) => {
-        let projects = this.props.projectItems.sort((prev, current) => prev.priority.localeCompare(current.priority) );
+        this.props.sortProjects(e.target.name);
     }
    
     render() {
@@ -76,7 +76,8 @@ const mapDispachToProps = (dispatch) => {
         addProject: (projectItem) => dispatch(addProjectAction(projectItem)),
         fetchProjects: (url) => dispatch(fetchProjects()),
         resetProject: () => dispatch(clearProjectForm()),
-        editProject: (projectItem) => dispatch(editProjectAction(projectItem)) 
+        editProject: (projectItem) => dispatch(editProjectAction(projectItem)),
+        sortProjects: (sortByColumn) => dispatch(sortProjects(sortByColumn)) 
     }
 }
 export default connect(mapStateToProps, mapDispachToProps) (ProjectManagement);

@@ -10,16 +10,15 @@ export function fetchProjects() {
     return (dispatch)=> {
         request.get(FETCH_TASK_API)
                .then(res => res.body)
-               .then(data => {dispatch({type:'FETCH_PROJECT', projectItems:data})})
+               .then(data => {dispatch({type:'FETCH_PROJECT', projectItems:data.reverse()})})
                .catch(error => dispatch({type:'ERROR_FETCH_PROJECT', error}));
        
     }
 }
 
 export function addProjectAction(projectItems) {
-    console.log(`${JSON.stringify(projectItems)}`)
     return (dispatch)=> {
-        request.put(PUT_TASK_API).send(projectItems).then(res => res.body).then(data => {dispatch(reset('addProjectForm')); dispatch(fetchProjects())})
+        request.put(PUT_TASK_API).send(projectItems).then(res => res.body).then(data => {dispatch(reset('addProjectForm')); dispatch(clearProjectForm()); dispatch(fetchProjects())})
        }
 }
 
@@ -40,6 +39,14 @@ export function projectLoading() {
     return (dispatch) => {
         dispatch({
             type:'PROJECT_LOADING', status: true
+        });
+    }
+}
+
+export function sortProjects(sortByColumn) {
+    return (dispatch) => {
+        dispatch({
+            type:'SORT_PROJECTS', columnName: sortByColumn
         });
     }
 }

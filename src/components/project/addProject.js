@@ -21,10 +21,10 @@ class AddProject extends Component  {
     }
 
     render() {
-        const { handleSubmit, resetProject, reset, isDateCheckSelected, projectName, projectId } = this.props;
+        const { handleSubmit, resetProject, reset, isDateCheckSelected, projectName, projectId , defaultStartDate, defaultEndDate} = this.props;
         return (
             <div> 
-                <h1> {projectId?'Edit Project':'Add Project'} </h1>
+                <h1> {projectId?'Edit Project':'Add Project'}  </h1>
                 <br/>
                 <br/>
                 <form autoComplete="off" onSubmit={handleSubmit}> 
@@ -40,13 +40,13 @@ class AddProject extends Component  {
                         <Field type="checkbox" component="input" name="datecheck" id="datecheck" />
                     </label>
                     <label className="col-2" style={{whiteSpace:'noWrap', textAlign:'left'}}>
-                        Set Start and End Date
+                        Set Start and End Date <br/>
                     </label>
                     <div className='col-3'>
-                        <Field type="date" className="form-control" component={renderField} name="startDate" id="startDate" />
+                        <Field type="date" className="form-control"  component={renderField} name="startDate" id="startDate" />
                     </div>
                     <div className='col-3'>
-                        <Field type="date" className="form-control" component={renderField} name="endDate" id="endDate" />
+                        <Field type="date" className="form-control"  component={renderField} name="endDate" id="endDate" />
                     </div>
                 </div>
                 <div className="form-group row">
@@ -68,7 +68,7 @@ class AddProject extends Component  {
                     <div className="col-8">
                     </div>
                     <div className="col-2">
-                        <button type="submit" className="btn btn-secondary"> Add</button>
+                        <button type="submit" className="btn btn-secondary"> {projectId?'Update':'Add'}</button>
                     </div>
                     <div className="col-2">
                         <button type="button" className="btn btn-secondary" onClick={reset}> Reset</button>
@@ -117,13 +117,16 @@ const formSelector = formValueSelector('addProjectForm');
 
 const mapStateToProps = (state) => {
     const isDateCheckSelected = formSelector(state, 'datecheck');
-    let startDate = moment();
-    let endDate = moment();
+    let startDate = moment().format('YYYY-MM-DD');
+    let endDate = moment().add(1, 'days').format('YYYY-MM-DD');
+    console.log(`start Date: ${startDate}`);
 
     return {
-        initialValues:  state.projectReducer.projectFormData,
+        initialValues:  Object.assign({}, state.projectReducer.projectFormData),
         enableReinitialize: true,
-        projectId: state.projectReducer.projectFormData && state.projectReducer.projectFormData.id
+        projectId: state.projectReducer.projectFormData && state.projectReducer.projectFormData.id,
+        defaultStartDate : isDateCheckSelected? startDate : '',
+        defaultEndDate : isDateCheckSelected ? endDate : ''
     }
 }
 

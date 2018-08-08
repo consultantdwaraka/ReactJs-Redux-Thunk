@@ -8,6 +8,7 @@ class TaskManagement extends Component {
         super(props);
     }
     handleSubmit = taskFormData => {
+        console.log('test task');
         this.props.addTask(taskFormData);
         this.props.history.push('/viewTask');
     }

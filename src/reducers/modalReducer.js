@@ -8,7 +8,9 @@ const initialState = {
 const modalReducer = (state = initialState, action) => {
     
     switch(action.type) {
+       
         case ActionTypes.SHOW_MODEL:
+        console.log('model re');
             return {
                 modalProps: action.modal,
                 type: action.type

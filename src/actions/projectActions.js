@@ -28,6 +28,12 @@ export function editProjectAction(projectItem) {
     };
 }
 
+export function updateProjectName(projectName) {
+    return (dispatch) => {
+        dispatch({type:'UPDATE_PROJECT_NAME', projectName: projectName});
+    };
+}
+
 export function clearProjectForm() {
     return (dispatch) => {
         let emptyProjectForm = {projectName:'', startDate:'', endDate:'',priority:'', managerId:''};

@@ -19,7 +19,7 @@ class ProjectManagement extends Component {
     componentDidMount() {
         this.props.fetchProjects();
         this.props.fetchUsers();
-        this.props.updateFormValue('priority', -1);
+        this.props.updateFormValue('priority', 0);
     }
 
     

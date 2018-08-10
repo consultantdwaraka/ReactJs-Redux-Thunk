@@ -7,7 +7,6 @@ const DEL_TASK_API = 'http://localhost:8080/services/v1/deleteTask';
 const END_TASK_API = 'http://localhost:8080/services/v1/endTask';
 
 export function addTaskAction(taskDetails) {
-    console.log(JSON.stringify(taskDetails));
     return (dispatch) => {
         request.put(PUT_TASK_API).send(taskDetails).then(data => {dispatch(reset('addTaskForm')); dispatch(clearTaskForm()); dispatch(fetchTasks())});
         
@@ -30,7 +29,6 @@ export function fetchTasks() {
  }
 
  export function editTaskAction(taskitem) {
-     console.log(`Edit task action: ${JSON.stringify(taskitem)}`);
     return (dispatch) => {
         dispatch({type:'EDIT_TASK_FORM', taskFormData: taskitem});
     };

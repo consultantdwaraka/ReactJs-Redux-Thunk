@@ -10,7 +10,7 @@ export function fetchProjects() {
     return (dispatch)=> {
         request.get(FETCH_TASK_API)
                .then(res => res.body)
-               .then(data => {dispatch({type:'FETCH_PROJECT', projectItems:data.reverse()})})
+               .then(data => { dispatch({type:'FETCH_PROJECT', projectItems:data.reverse()})})
                .catch(error => dispatch({type:'ERROR_FETCH_PROJECT', error}));
        
     }

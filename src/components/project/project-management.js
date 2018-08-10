@@ -158,7 +158,7 @@ const mapDispachToProps = (dispatch) => {
         showModalPopup: (modalProps) => dispatch(showModal(modalProps)),
         fetchUsers: () => { dispatch(fetchUsers()) },
         onSelect: (event) => dispatch(change('addProjectForm','managerId', event.target.name)),
-        updateFormValue : (field, value) => {dispatch(change('addProjectForm',field, value)), console.log('ddd:'+value)}
+        updateFormValue : (field, value) => dispatch(change('addProjectForm',field, value))
     }
 }
 export default connect(mapStateToProps, mapDispachToProps)(ProjectManagement);

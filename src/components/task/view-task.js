@@ -88,7 +88,7 @@ class ViewTask extends Component {
                         <input type="text" className="form-control"  readOnly={true} id="projectSerch" name="projectSerch" value={this.state.searchFilter} onChange={ (e) => this.filterTasks(e)} />
                     </div>
                     <div className="col-1">
-                        <button type="button" className="btn btn-gray" onClick={this.showModalPopup}> Search </button>
+                        <button type="button" className="btn btn-outline-primary" onClick={this.showModalPopup}> Search </button>
                     </div>
                     <div className="col-2">
                         <button type="button"  name="startDate" className="btn btn-secondary" onClick={(e)=> this.sortRecords(e)}> Start Date </button>

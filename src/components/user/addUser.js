@@ -42,7 +42,7 @@ class AddUser extends Component {
                         <button type="submit" className="btn btn-secondary"> {id? 'Edit':'Add'}</button>
                     </div>
                     <div className="col-2">
-                        <button type="button" className="btn btn-secondary" onClick={reset}> Reset</button>
+                        <button type="button" className="btn btn-warning" onClick={reset}> Reset</button>
                     </div>
                 </div>
             </form> </div>

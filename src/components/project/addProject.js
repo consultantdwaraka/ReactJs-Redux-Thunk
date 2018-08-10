@@ -9,8 +9,6 @@ class AddProject extends Component {
         this.state = { show: false };
         
     }
-
-
     
     checkboxValue(e) {
         setTimeout(() => {
@@ -58,7 +56,7 @@ class AddProject extends Component {
                             <Field type="text" className="form-control" disabled={true} component={renderField} name="managerId" id="managerId" />
                         </div>
                         <div className="col-2">
-                            <button type="button" className="btn btn-primary" onClick={handlePopup}> Search </button>
+                            <button type="button" className="btn btn-outline-primary" onClick={handlePopup}> Search </button>
                         </div>
                     </div>
                     <div className="form-group row">
@@ -68,7 +66,7 @@ class AddProject extends Component {
                             <button type="submit" className="btn btn-secondary"> {projectId ? 'Update' : 'Add'}</button>
                         </div>
                         <div className="col-2">
-                            <button type="button" className="btn btn-secondary" onClick={reset}> Reset</button>
+                            <button type="button" className="btn btn-warning" onClick={reset}> Reset</button>
                         </div>
                     </div>
                 </form>

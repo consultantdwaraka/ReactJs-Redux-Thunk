@@ -58,7 +58,6 @@ class ProjectManagement extends Component {
     }
 
     onDateSelect = (isCheckboxSelected) => {
-        console.log('dfsdfdsf' + isCheckboxSelected);
         if(isCheckboxSelected === true) {
             let startDate = moment().format('YYYY-MM-DD');
             let endDate = moment().add(1, 'days').format('YYYY-MM-DD');

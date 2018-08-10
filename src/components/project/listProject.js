@@ -43,7 +43,7 @@ class ListProject extends Component {
                             priority
                         </div>
                         <div className="row">
-                            ${priority?priority:0}
+                            {priority?priority:0}
                         </div>
                                 
                     </div>

@@ -106,7 +106,6 @@ class AddTask extends Component {
     };
 
     selectTasksComponent = (taskItems) => {
-        console.log(`tasks: ${JSON.stringify(taskItems)}`);
         return taskItems && taskItems.filter(taskItem => taskItem.parentTask === "true").map((taskItem, index) => (
             <div className="row" key={index} style={{ padding: '5px' }}>
 
@@ -262,9 +261,7 @@ const validate = values => {
         if (!values.priority) {
             errors.priority = 'Required';
         }
-        if (!values.parentTaskDesc) {
-            errors.parentTaskDesc = 'Required';
-        }
+        
         if(values.startDate && values.endDate) {
             if(moment(values.startDate).isAfter(values.endDate)) {
              errors.startDate = 'Start Date should be before the End Date';

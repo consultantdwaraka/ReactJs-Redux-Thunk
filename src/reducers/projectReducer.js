@@ -10,7 +10,6 @@ export default function projectReducer(state = {}, action) {
         case 'EDIT_PROJECT_FORM':
             return Object.assign({}, state, {projectFormData: action.projectFormData});
         case 'UPDATE_PROJECT_NAME':
-        console.log('u p n')
             return Object.assign({}, state, {projectName: action.projectName});
         case 'SORT_PROJECTS':
             let sortedProjectItems = sortRecords(state.projectItems, action.columnName);

@@ -140,7 +140,6 @@ class ViewTask extends Component {
 
 
 const mapStateToProps = (state) => {
-    console.log(`dddd: ${state.projectReducer.projectName}`);
     return {
         taskItems: state.taskReducer.taskItems || [],
         projectItems: state.projectReducer.projectItems,

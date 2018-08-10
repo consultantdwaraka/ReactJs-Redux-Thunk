@@ -7,7 +7,6 @@ import ProjectModal from './projectModal';
 import {fetchUsers} from '../../actions/userActions'
 
 const mapStateToProps = state => {
-  console.log('MM');
     return ({
         modalProps: state.modalReducer.modalProps
     });
